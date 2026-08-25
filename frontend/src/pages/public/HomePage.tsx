@@ -352,42 +352,56 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. The 7 Academic Schools Showcase */}
+      {/* 5. The 7 Academic Schools Showcase with Real Faculty Photography */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
           <span className="text-xs font-bold uppercase tracking-widest text-gold-800 bg-gold-100 px-3 py-1 rounded-full border border-gold-300">
             7 Academic Schools • Accredited Programs
           </span>
-          <h3 className="font-serif text-3xl sm:text-4xl font-bold text-oxford-950">Academic Schools & Course Offerings</h3>
+          <h3 className="font-serif text-3xl sm:text-4xl font-bold text-oxford-950">Academic Schools & Faculties</h3>
           <p className="text-sm text-slate-600">
-            The college offers <strong>Diploma, Certificate, Artisan, Short, and Professional</strong> courses across 7 distinct faculties.
+            The college offers accredited <strong>Diploma, Certificate, Artisan, Short, and Professional</strong> courses across 7 distinct schools.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {[
-            { name: 'School of Business & Management', desc: 'Diploma, Certificate, CPA & Executive courses in Finance, HR & Supply Chain.', badge: '3,450 Students', icon: '📈', levels: 'Diploma • Cert • CPA' },
-            { name: 'School of ICT & Computer Science', desc: 'Software engineering, cybersecurity, data science, CCNA, cloud & AI.', badge: '2,850 Students', icon: '💻', levels: 'Diploma • Cert • Artisan' },
-            { name: 'School of Engineering & Technology', desc: 'Electrical power, automotive mechanics, civil masonry, plumbing & solar PV.', badge: '2,100 Students', icon: '⚡', levels: 'Diploma • Cert • Artisan' },
-            { name: 'School of Hospitality & Tourism', desc: 'Culinary arts, pastry bakery, food & beverage, cabin crew & barista skills.', badge: '1,950 Students', icon: '🏨', levels: 'Diploma • Cert • Short' },
-            { name: 'School of Media & Communication', desc: 'Broadcast journalism, TV/radio presenting, public relations & digital strategy.', badge: '1,600 Students', icon: '🎙️', levels: 'Diploma • Cert • Short' },
-            { name: 'School of Health & Social Sciences', desc: 'Community health, social work, counseling psychology & disaster management.', badge: '2,300 Students', icon: '🩺', levels: 'Diploma • Cert • Artisan' },
-            { name: 'School of Creative Arts & Design', desc: 'Graphic design, 2D/3D animation, fashion textile styling & interior staging.', badge: '1,450 Students', icon: '🎨', levels: 'Diploma • Cert • Artisan' },
+            { name: 'School of Business & Management', desc: 'Diploma, Certificate, CPA & Executive courses in Finance, HR & Supply Chain.', badge: '3,450 Students', image: '/campus-quad.jpg', levels: 'Diploma • Cert • CPA' },
+            { name: 'School of ICT & Computer Science', desc: 'Software engineering, cybersecurity, data science, CCNA, cloud & AI.', badge: '2,850 Students', image: '/innovation-hall.jpg', levels: 'Diploma • Cert • Artisan' },
+            { name: 'School of Engineering & Technology', desc: 'Electrical power, automotive mechanics, civil masonry, plumbing & solar PV.', badge: '2,100 Students', image: '/engineering-lab.jpg', levels: 'Diploma • Cert • Artisan' },
+            { name: 'School of Hospitality & Tourism', desc: 'Culinary arts, pastry bakery, food & beverage, cabin crew & barista skills.', badge: '1,950 Students', image: '/culinary.jpg', levels: 'Diploma • Cert • Short' },
+            { name: 'School of Media & Communication', desc: 'Broadcast journalism, TV/radio presenting, public relations & digital strategy.', badge: '1,600 Students', image: '/media-studio.jpg', levels: 'Diploma • Cert • Short' },
+            { name: 'School of Health & Social Sciences', desc: 'Community health, social work, counseling psychology & disaster management.', badge: '2,300 Students', image: '/health-lab.jpg', levels: 'Diploma • Cert • Artisan' },
+            { name: 'School of Creative Arts & Design', desc: 'Graphic design, 2D/3D animation, fashion textile styling & interior staging.', badge: '1,450 Students', image: '/creative-arts.jpg', levels: 'Diploma • Cert • Artisan' },
           ].map((item, idx) => (
             <div
               key={idx}
-              className="p-7 bg-white rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-5 hover:-translate-y-1"
+              className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 group"
             >
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-3xl">{item.icon}</span>
-                  <span className="text-[10px] font-bold text-gold-800 bg-gold-50 px-2 py-0.5 rounded-full border border-gold-200">{item.levels}</span>
+              <div>
+                <div className="h-44 overflow-hidden relative">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-oxford-950/80 via-transparent to-transparent"></div>
+                  <span className="absolute top-3 right-3 text-[10px] font-bold text-oxford-950 bg-gold-400 px-2 py-0.5 rounded-full shadow">
+                    {item.levels}
+                  </span>
                 </div>
-                <h4 className="font-serif font-bold text-base text-oxford-950 leading-snug">{item.name}</h4>
-                <p className="text-xs text-slate-600 leading-relaxed">{item.desc}</p>
+
+                <div className="p-5 space-y-2">
+                  <h4 className="font-serif font-bold text-base text-oxford-950 leading-snug group-hover:text-crimson-800 transition">
+                    {item.name}
+                  </h4>
+                  <p className="text-xs text-slate-600 leading-relaxed font-light line-clamp-2">
+                    {item.desc}
+                  </p>
+                </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+              <div className="p-5 pt-0 border-t border-slate-100 flex items-center justify-between">
                 <span className="text-[11px] font-bold text-oxford-800 bg-oxford-50 px-2.5 py-1 rounded-full">{item.badge}</span>
                 <Link to="/schools" className="text-xs font-bold text-crimson-700 hover:text-crimson-800 flex items-center gap-1">
                   <span>View Units</span>
