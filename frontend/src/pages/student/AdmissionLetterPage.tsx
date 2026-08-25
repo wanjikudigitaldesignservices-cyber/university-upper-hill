@@ -57,8 +57,8 @@ export const AdmissionLetterPage: React.FC = () => {
       {/* Letter Document Preview Box */}
       <div className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-12 shadow-sm space-y-6 max-w-3xl mx-auto">
         <div className="text-center border-b border-slate-200 pb-6 space-y-2">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-700 to-navy-950 text-white flex items-center justify-center mx-auto shadow-md">
-            <FileText className="w-7 h-7" />
+          <div className="w-20 h-20 rounded-2xl bg-white p-1 shadow-md border border-slate-200 flex items-center justify-center mx-auto">
+            <img src="/logo.png" alt="University of Upper Hill Crest" className="w-full h-full object-contain" />
           </div>
           <h3 className="text-xl font-extrabold text-navy-950 tracking-tight">UNIVERSITY OF UPPER HILL</h3>
           <p className="text-xs text-slate-500 font-semibold uppercase tracking-widest">Office of the Academic Registrar</p>

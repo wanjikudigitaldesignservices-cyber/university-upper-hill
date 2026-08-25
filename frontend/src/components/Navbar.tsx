@@ -72,8 +72,8 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-400 to-brand-700 flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition">
-              <GraduationCap className="w-6 h-6" />
+            <div className="w-11 h-11 rounded-xl bg-white p-0.5 shadow-lg group-hover:scale-105 transition overflow-hidden border border-brand-400/40 flex items-center justify-center">
+              <img src="/logo.png" alt="University of Upper Hill Logo" className="w-full h-full object-contain" />
             </div>
             <div>
               <span className="font-bold text-lg tracking-tight block leading-tight text-white group-hover:text-brand-300 transition">

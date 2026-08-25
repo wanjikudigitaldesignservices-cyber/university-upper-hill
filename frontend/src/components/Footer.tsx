@@ -10,8 +10,8 @@ export const Footer: React.FC = () => {
           {/* Col 1: Brand info */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow-lg">
-                <GraduationCap className="w-6 h-6" />
+              <div className="w-12 h-12 rounded-xl bg-white p-0.5 shadow-lg overflow-hidden border border-brand-400/40 flex items-center justify-center shrink-0">
+                <img src="/logo.png" alt="University of Upper Hill Crest" className="w-full h-full object-contain" />
               </div>
               <span className="font-bold text-xl text-white tracking-tight">
                 UNIVERSITY OF UPPER HILL

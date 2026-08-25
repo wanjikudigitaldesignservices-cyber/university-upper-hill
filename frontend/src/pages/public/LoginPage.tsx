@@ -125,9 +125,14 @@ export const LoginPage: React.FC = () => {
 
         {/* Right: Custom Login Card */}
         <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200 p-8 shadow-xl">
-          <div className="mb-6 space-y-1">
-            <h3 className="text-xl font-bold text-navy-950">Direct System Sign-In</h3>
-            <p className="text-xs text-slate-500">Enter your institutional credentials to authenticate</p>
+          <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+            <div className="w-12 h-12 rounded-xl bg-white p-0.5 shadow-md border border-slate-200 flex items-center justify-center shrink-0">
+              <img src="/logo.png" alt="University Crest" className="w-full h-full object-contain" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-navy-950 leading-tight">University Gateway Authentication</h3>
+              <p className="text-xs text-slate-500">Sign in with your verified institutional credentials</p>
+            </div>
           </div>
 
           {error && (

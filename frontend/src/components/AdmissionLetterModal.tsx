@@ -56,9 +56,9 @@ export const AdmissionLetterModal: React.FC<AdmissionLetterModalProps> = ({
         <div className="p-8 sm:p-12 bg-white text-slate-900 font-serif leading-relaxed text-sm space-y-6">
           {/* Letterhead */}
           <div className="text-center border-b-2 border-brand-800 pb-6 space-y-1">
-            <div className="flex justify-center mb-2">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-700 to-navy-900 text-white flex items-center justify-center shadow-lg font-sans">
-                <GraduationCap className="w-9 h-9" />
+            <div className="flex justify-center mb-3">
+              <div className="w-24 h-24 rounded-2xl bg-white p-1 shadow-md border border-slate-200 flex items-center justify-center">
+                <img src="/logo.png" alt="University of Upper Hill Crest Seal" className="w-full h-full object-contain" />
               </div>
             </div>
             <h1 className="text-2xl font-bold font-sans tracking-wide text-navy-950">
