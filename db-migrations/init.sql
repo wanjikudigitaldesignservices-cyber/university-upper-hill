@@ -256,3 +256,41 @@ INSERT INTO hostel.rooms (block_name, room_number, capacity) VALUES
 INSERT INTO cms.news (title, content, author_id, published) VALUES
   ('Welcome to University of Upper Hill', 'Welcome to the new academic year at UUH. We look forward to a productive semester.', '00000000-0000-0000-0000-000000000000', TRUE),
   ('Registration Opens', 'Online registration for the upcoming semester is now open. Please log into the student portal to register.', '00000000-0000-0000-0000-000000000000', TRUE);
+
+-- ==========================================
+-- ROW LEVEL SECURITY (RLS) POLICIES
+-- ==========================================
+ALTER TABLE auth.users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE auth.refresh_tokens ENABLE ROW LEVEL SECURITY;
+ALTER TABLE academic.schools ENABLE ROW LEVEL SECURITY;
+ALTER TABLE academic.departments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE academic.students ENABLE ROW LEVEL SECURITY;
+ALTER TABLE academic.courses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE academic.enrollments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE academic.grades ENABLE ROW LEVEL SECURITY;
+ALTER TABLE hostel.blocks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE hostel.rooms ENABLE ROW LEVEL SECURITY;
+ALTER TABLE hostel.bookings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE finance.invoices ENABLE ROW LEVEL SECURITY;
+ALTER TABLE finance.fee_payments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE admissions.admission_letters ENABLE ROW LEVEL SECURITY;
+ALTER TABLE cms.pages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE cms.news ENABLE ROW LEVEL SECURITY;
+ALTER TABLE cms.departments_info ENABLE ROW LEVEL SECURITY;
+
+-- Public read policies for catalogs
+CREATE POLICY public_read_schools ON academic.schools FOR SELECT USING (true);
+CREATE POLICY public_read_departments ON academic.departments FOR SELECT USING (true);
+CREATE POLICY public_read_courses ON academic.courses FOR SELECT USING (true);
+CREATE POLICY public_read_hostel_blocks ON hostel.blocks FOR SELECT USING (true);
+CREATE POLICY public_read_hostel_rooms ON hostel.rooms FOR SELECT USING (true);
+CREATE POLICY public_read_published_news ON cms.news FOR SELECT USING (published = true);
+
+-- Student Self-Data Access
+CREATE POLICY student_read_own_profile ON academic.students FOR SELECT USING (auth.uid() = user_id OR auth.role() = 'service_role');
+CREATE POLICY student_read_own_enrollments ON academic.enrollments FOR SELECT USING (student_id IN (SELECT id FROM academic.students WHERE user_id = auth.uid()) OR auth.role() = 'service_role');
+CREATE POLICY student_read_own_bookings ON hostel.bookings FOR SELECT USING (auth.uid() = user_id OR auth.role() = 'service_role');
+CREATE POLICY student_read_own_invoices ON finance.invoices FOR SELECT USING (auth.uid() = user_id OR auth.role() = 'service_role');
+CREATE POLICY student_read_own_payments ON finance.fee_payments FOR SELECT USING (auth.uid() = user_id OR auth.role() = 'service_role');
+CREATE POLICY student_read_own_admission_letter ON admissions.admission_letters FOR SELECT USING (auth.uid() = user_id OR auth.role() = 'service_role');
+
