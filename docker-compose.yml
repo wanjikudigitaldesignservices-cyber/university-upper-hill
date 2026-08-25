@@ -1,8 +1,13 @@
 version: '3.8'
 
 services:
+  # =================================================================
+  # PRIMARY RELATIONAL DATABASE (PostgreSQL 15)
+  # Servicing: auth, academic, hostel (locking), finance, admissions
+  # =================================================================
   db:
     image: postgres:15-alpine
+    container_name: uuh-postgres-db
     environment:
       POSTGRES_USER: uuh_admin
       POSTGRES_PASSWORD: password123
@@ -20,9 +25,33 @@ services:
     networks:
       - uuh-network
 
+  # =================================================================
+  # DOCUMENT & TELEMETRY STORE (MongoDB 6.0)
+  # Servicing: cms (dynamic content/pages/views), notifications (audit logs)
+  # =================================================================
+  mongo:
+    image: mongo:6.0
+    container_name: uuh-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+      - ./db-migrations/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    healthcheck:
+      test: ["CMD","mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - uuh-network
+
+  # =================================================================
+  # API GATEWAY (Reverse Proxy, JWT Termination, Rate Limiting)
+  # =================================================================
   api-gateway:
     build:
       context: ./api-gateway
+    container_name: uuh-api-gateway
     ports:
       - "8080:8080"
     environment:
@@ -51,9 +80,13 @@ services:
     networks:
       - uuh-network
 
+  # =================================================================
+  # MICROSERVICE 1: AUTH SERVICE (PostgreSQL)
+  # =================================================================
   auth-service:
     build:
       context: ./services/auth-service
+    container_name: uuh-auth-service
     environment:
       - PORT=3001
       - DATABASE_URL=postgres://uuh_admin:password123@db:5432/uuh_db
@@ -65,9 +98,13 @@ services:
     networks:
       - uuh-network
 
+  # =================================================================
+  # MICROSERVICE 2: ACADEMIC SERVICE (PostgreSQL)
+  # =================================================================
   academic-service:
     build:
       context: ./services/academic-service
+    container_name: uuh-academic-service
     environment:
       - PORT=3002
       - DATABASE_URL=postgres://uuh_admin:password123@db:5432/uuh_db
@@ -77,9 +114,13 @@ services:
     networks:
       - uuh-network
 
+  # =================================================================
+  # MICROSERVICE 3: HOSTEL SERVICE (PostgreSQL with Row-Level Locks)
+  # =================================================================
   hostel-service:
     build:
       context: ./services/hostel-service
+    container_name: uuh-hostel-service
     environment:
       - PORT=3003
       - DATABASE_URL=postgres://uuh_admin:password123@db:5432/uuh_db
@@ -90,9 +131,13 @@ services:
     networks:
       - uuh-network
 
+  # =================================================================
+  # MICROSERVICE 4: FINANCE SERVICE (PostgreSQL + Jiunge Gateway)
+  # =================================================================
   finance-service:
     build:
       context: ./services/finance-service
+    container_name: uuh-finance-service
     environment:
       - PORT=3004
       - DATABASE_URL=postgres://uuh_admin:password123@db:5432/uuh_db
@@ -106,9 +151,13 @@ services:
     networks:
       - uuh-network
 
+  # =================================================================
+  # MICROSERVICE 5: ADMISSIONS SERVICE (PostgreSQL + PDF Engine)
+  # =================================================================
   admissions-service:
     build:
       context: ./services/admissions-service
+    container_name: uuh-admissions-service
     environment:
       - PORT=3005
       - DATABASE_URL=postgres://uuh_admin:password123@db:5432/uuh_db
@@ -120,32 +169,45 @@ services:
     networks:
       - uuh-network
 
+  # =================================================================
+  # MICROSERVICE 6: CMS SERVICE (MongoDB Document Store)
+  # =================================================================
   cms-service:
     build:
       context: ./services/cms-service
+    container_name: uuh-cms-service
     environment:
       - PORT=3006
-      - DATABASE_URL=postgres://uuh_admin:password123@db:5432/uuh_db
+      - MONGO_URI=mongodb://mongo:27017/uuh_cms
     depends_on:
-      db:
+      mongo:
         condition: service_healthy
     networks:
       - uuh-network
 
+  # =================================================================
+  # MICROSERVICE 7: NOTIFICATION & AUDIT SERVICE (MongoDB + SMTP)
+  # =================================================================
   notification-service:
     build:
       context: ./services/notification-service
+    container_name: uuh-notification-service
     environment:
       - PORT=3007
+      - MONGO_URI=mongodb://mongo:27017/uuh_notifications
       - SMTP_HOST=smtp.example.com
       - SMTP_PORT=587
       - SMTP_USER=noreply@upperhill.ac.ke
       - SMTP_PASS=mock_smtp_password
+    depends_on:
+      mongo:
+        condition: service_healthy
     networks:
       - uuh-network
 
 volumes:
   pgdata:
+  mongodata:
 
 networks:
   uuh-network:
