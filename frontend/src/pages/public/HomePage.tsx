@@ -17,6 +17,10 @@ import {
   Globe,
   Compass,
   ArrowUpRight,
+  Library,
+  Flame,
+  Wrench,
+  Utensils,
 } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
@@ -25,7 +29,7 @@ export const HomePage: React.FC = () => {
 
   return (
     <div className="space-y-20 pb-20 bg-[#FAF9F6]">
-      {/* Hero Section (Oxford / Harvard Editorial Caliber) */}
+      {/* 1. Hero Section (Oxford / Harvard Editorial Caliber) */}
       <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-oxford-950 text-white">
         {/* Background Photo with Dark Gradient Overlay */}
         <div className="absolute inset-0 z-0">
@@ -54,7 +58,7 @@ export const HomePage: React.FC = () => {
               </h1>
 
               <p className="text-slate-200 text-base sm:text-lg leading-relaxed max-w-xl font-light">
-                The <strong>University of Upper Hill</strong> stands at the forefront of African scientific breakthrough, enterprise education, and technological discovery.
+                The <strong>University of Upper Hill</strong> offers accredited <strong>Diploma, Certificate, Artisan, Short & Professional</strong> courses across 7 distinct academic schools.
               </p>
 
               <div className="flex flex-wrap items-center gap-4 pt-4">
@@ -83,8 +87,8 @@ export const HomePage: React.FC = () => {
                   <p className="text-xs text-slate-300 uppercase tracking-wider mt-1">Scholars</p>
                 </div>
                 <div>
-                  <p className="font-serif text-3xl sm:text-4xl font-bold text-white">15</p>
-                  <p className="text-xs text-slate-300 uppercase tracking-wider mt-1">Faculties</p>
+                  <p className="font-serif text-3xl sm:text-4xl font-bold text-white">7</p>
+                  <p className="text-xs text-slate-300 uppercase tracking-wider mt-1">Schools</p>
                 </div>
                 <div>
                   <p className="font-serif text-3xl sm:text-4xl font-bold text-emerald-400">98.4%</p>
@@ -175,25 +179,25 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Vice-Chancellor's Vision & Research Pillar (Harvard Gazette Style) */}
+      {/* 2. Research Pillar & Modern Lecture Hall Showcase */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 space-y-6">
             <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-crimson-700">
               <Award className="w-4 h-4" />
-              <span>Research & Global Impact</span>
+              <span>State-of-the-Art Facilities</span>
             </div>
 
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-oxford-950 leading-tight">
-              Pioneering Artificial Intelligence, Climate Science & Biomedical Discovery
+              Pioneering Artificial Intelligence, Software Engineering & Robotics
             </h2>
 
             <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
-              At the University of Upper Hill, academic rigor converges with transformational African problem-solving. From our new KES 250M AI Innovation Hub to advanced genomic epidemiology in partnership with national health institutes, our research changes lives.
+              At the University of Upper Hill, academic theory converges with hands-on technical mastery. Our computing amphitheatre and Cisco/EC-Council certified cybersecurity labs prepare students for immediate high-growth tech careers.
             </p>
 
             <blockquote className="p-5 rounded-2xl bg-white border-l-4 border-gold-600 shadow-sm text-xs sm:text-sm text-slate-800 italic font-serif">
-              "We prepare scholars not just for employment, but to author the technological and ethical architecture of tomorrow's world."
+              "We prepare scholars not just for employment, but to build and lead the technical and enterprise infrastructure of Africa."
               <footer className="mt-2 font-sans font-bold text-oxford-900 not-italic text-xs">
                 — Prof. Mary Wanjiku, PhD, Registrar of Academic Affairs
               </footer>
@@ -204,7 +208,7 @@ export const HomePage: React.FC = () => {
                 to="/schools"
                 className="inline-flex items-center gap-2 text-sm font-bold text-oxford-900 hover:text-crimson-700 transition"
               >
-                <span>Explore all 15 Faculties & Research Centres</span>
+                <span>Explore all 7 Academic Schools</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -220,10 +224,10 @@ export const HomePage: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-oxford-950/90 via-transparent to-transparent flex items-end p-6 sm:p-8 text-white">
                 <div>
                   <span className="px-2.5 py-1 rounded bg-gold-500 text-oxford-950 font-bold text-[10px] uppercase tracking-wider">
-                    Innovation Centre
+                    Innovation Hub
                   </span>
-                  <h4 className="font-serif font-bold text-lg sm:text-xl mt-2">State-of-the-Art Computing & Robotics Amphitheatre</h4>
-                  <p className="text-xs text-slate-300 mt-1">Hosting international symposia and multi-disciplinary data analytics cohorts.</p>
+                  <h4 className="font-serif font-bold text-lg sm:text-xl mt-2">Computing & Robotics Amphitheatre</h4>
+                  <p className="text-xs text-slate-300 mt-1">Equipped with enterprise cloud workstations, data analytics clusters, and AI modeling sandboxes.</p>
                 </div>
               </div>
             </div>
@@ -231,7 +235,124 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Featured Faculties (7 Distinct Academic Schools) */}
+      {/* 3. The Grand University Research Library Showcase */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-oxford-950 rounded-3xl overflow-hidden shadow-2xl border border-white/10 grid grid-cols-1 lg:grid-cols-12 items-center">
+          <div className="lg:col-span-6 p-8 sm:p-12 text-white space-y-6">
+            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gold-400">
+              <Library className="w-4 h-4" />
+              <span>Bodleian & Harvard Standard</span>
+            </div>
+
+            <h3 className="font-serif text-3xl sm:text-4xl font-bold leading-tight">
+              The Chancellor's Memorial Research Library
+            </h3>
+
+            <p className="text-slate-300 text-sm leading-relaxed">
+              Housing over 150,000 physical volumes, 24/7 digital journal subscriptions (IEEE, Springer, ScienceDirect, JSTOR), silent study galleries, and high-speed research pods.
+            </p>
+
+            <div className="grid grid-cols-2 gap-4 pt-2 border-t border-white/15">
+              <div>
+                <p className="font-serif text-2xl font-bold text-gold-400">150,000+</p>
+                <p className="text-xs text-slate-400">Academic Books & Volumes</p>
+              </div>
+              <div>
+                <p className="font-serif text-2xl font-bold text-emerald-400">24 / 7</p>
+                <p className="text-xs text-slate-400">E-Library & Journal Access</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-6 h-80 sm:h-96 lg:h-full min-h-[350px] relative">
+            <img
+              src="/library.jpg"
+              alt="Grand University Research Library"
+              className="w-full h-full object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-l from-oxford-950/80 via-transparent to-transparent"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Dual Hands-On Showcase: Engineering Labs & Culinary Hospitality Kitchens */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="text-center max-w-3xl mx-auto space-y-2">
+          <span className="text-xs font-bold uppercase tracking-widest text-gold-800 bg-gold-100 px-3 py-1 rounded-full border border-gold-300">
+            TVET & Professional Industry Labs
+          </span>
+          <h3 className="font-serif text-3xl sm:text-4xl font-bold text-oxford-950">Hands-On Practical Excellence</h3>
+          <p className="text-sm text-slate-600">
+            Our students train in industry-grade workshops and commercial facilities before graduation.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Engineering Workshop */}
+          <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-md hover:shadow-xl transition flex flex-col justify-between">
+            <div className="h-64 sm:h-72 overflow-hidden relative">
+              <img
+                src="/engineering-lab.jpg"
+                alt="Renewable Energy & Solar Engineering Lab"
+                className="w-full h-full object-cover object-center hover:scale-105 transition duration-500"
+              />
+              <span className="absolute top-4 left-4 bg-oxford-950/80 backdrop-blur-md text-gold-400 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-white/15">
+                EPRA & NITA Accredited Lab
+              </span>
+            </div>
+            <div className="p-7 space-y-3">
+              <h4 className="font-serif font-bold text-xl text-oxford-950">
+                School of Engineering & Solar Technology
+              </h4>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Featuring real-world solar PV inverters, automated robotic arms, electrical grid simulators, and automotive mechanical engine diagnostic rigs.
+              </p>
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                <span className="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full">
+                  Diploma • Certificate • Artisan
+                </span>
+                <Link to="/schools" className="text-xs font-bold text-crimson-700 hover:text-crimson-800 flex items-center gap-1">
+                  <span>View Engineering Units</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Hospitality & Culinary Studio */}
+          <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-md hover:shadow-xl transition flex flex-col justify-between">
+            <div className="h-64 sm:h-72 overflow-hidden relative">
+              <img
+                src="/culinary.jpg"
+                alt="5-Star Commercial Hospitality & Culinary Kitchen"
+                className="w-full h-full object-cover object-center hover:scale-105 transition duration-500"
+              />
+              <span className="absolute top-4 left-4 bg-oxford-950/80 backdrop-blur-md text-gold-400 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-white/15">
+                City & Guilds 5-Star Kitchen
+              </span>
+            </div>
+            <div className="p-7 space-y-3">
+              <h4 className="font-serif font-bold text-xl text-oxford-950">
+                School of Hospitality & Culinary Arts
+              </h4>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Stainless-steel professional training kitchens, French pastry bakery studios, mixology cocktail bars, and simulated 5-star front desk suites.
+              </p>
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                <span className="text-[11px] font-bold text-orange-800 bg-orange-50 px-2.5 py-1 rounded-full">
+                  Diploma • Food & Beverage • Pastry
+                </span>
+                <Link to="/schools" className="text-xs font-bold text-crimson-700 hover:text-crimson-800 flex items-center gap-1">
+                  <span>View Culinary Units</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. The 7 Academic Schools Showcase */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
           <span className="text-xs font-bold uppercase tracking-widest text-gold-800 bg-gold-100 px-3 py-1 rounded-full border border-gold-300">
@@ -278,32 +399,40 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Prestige Call to Action Banner */}
+      {/* 6. Grand Graduation Commencement Showcase & Call to Action Banner */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-oxford-950 via-oxford-900 to-crimson-950 rounded-3xl p-8 sm:p-14 text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 border border-white/10">
-          <div className="space-y-3 max-w-xl">
-            <span className="px-3 py-1 rounded-full bg-gold-500/20 text-gold-300 font-bold text-xs uppercase tracking-widest">
+        <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200 bg-oxford-950 text-white min-h-[420px] flex items-center">
+          <img
+            src="/graduation.jpg"
+            alt="Commencement Ceremony"
+            className="absolute inset-0 w-full h-full object-cover object-center filter brightness-50"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-oxford-950 via-oxford-950/80 to-transparent"></div>
+
+          <div className="relative z-10 p-8 sm:p-14 max-w-2xl space-y-4">
+            <span className="px-3.5 py-1.5 rounded-full bg-gold-500/20 text-gold-300 font-bold text-xs uppercase tracking-widest border border-gold-500/30">
               2024/2025 Admissions Window
             </span>
-            <h3 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight">Begin Your Academic Legacy</h3>
-            <p className="text-sm text-slate-300">
-              Claim your admission letter, complete Jiunge fee clearance, and secure your on-campus residence in minutes.
+            <h3 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
+              Begin Your Academic Journey Today
+            </h3>
+            <p className="text-sm text-slate-200 leading-relaxed">
+              Join thousands of scholars achieving academic excellence. Download your official admission letter, complete fee clearance via Jiunge M-Pesa, and reserve your hostel in minutes.
             </p>
-          </div>
-
-          <div className="flex flex-wrap gap-4 shrink-0">
-            <button
-              onClick={() => { quickLogin('student'); navigate('/student'); }}
-              className="px-8 py-4 bg-gold-500 hover:bg-gold-400 text-oxford-950 font-bold rounded-xl text-sm shadow-xl transition"
-            >
-              Access Student Portal
-            </button>
-            <Link
-              to="/admissions"
-              className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold rounded-xl text-sm transition"
-            >
-              Admissions Guide
-            </Link>
+            <div className="flex flex-wrap gap-4 pt-2">
+              <button
+                onClick={() => { quickLogin('student'); navigate('/student'); }}
+                className="px-8 py-4 bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-oxford-950 font-bold rounded-xl text-sm shadow-xl transition"
+              >
+                Access Student Portal
+              </button>
+              <Link
+                to="/admissions"
+                className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white font-semibold rounded-xl text-sm transition"
+              >
+                Claim Admission Letter
+              </Link>
+            </div>
           </div>
         </div>
       </section>

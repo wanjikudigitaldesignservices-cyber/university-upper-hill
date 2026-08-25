@@ -311,97 +311,121 @@ export const SchoolsPage: React.FC = () => {
       </div>
 
       {/* Schools & Departments List */}
-      <div className="space-y-10">
-        {filteredSchools.map((school, sIdx) => (
-          <div
-            key={sIdx}
-            className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300"
-          >
-            {/* School Header */}
-            <div className="bg-oxford-950 text-white px-6 sm:px-8 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10">
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-3xl shrink-0">
-                  {school.icon}
-                </div>
-                <div>
-                  <h2 className="font-serif font-bold text-xl sm:text-2xl text-white">{school.name}</h2>
-                  <p className="text-xs text-gold-400 mt-0.5">Dean: {school.dean}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 self-start md:self-auto">
-                <span className="text-xs font-bold text-slate-200 bg-white/10 px-3.5 py-1.5 rounded-xl border border-white/10">
-                  {school.students}
-                </span>
-                <Link
-                  to="/login"
-                  className="px-4 py-1.5 bg-gold-500 hover:bg-gold-400 text-oxford-950 font-bold text-xs rounded-xl shadow transition"
-                >
-                  Apply Online
-                </Link>
-              </div>
-            </div>
+      <div className="space-y-12">
+        {filteredSchools.map((school, sIdx) => {
+          const schoolImg =
+            school.name.includes('Hospitality')
+              ? '/culinary.jpg'
+              : school.name.includes('Engineering')
+              ? '/engineering-lab.jpg'
+              : school.name.includes('ICT')
+              ? '/innovation-hall.jpg'
+              : school.name.includes('Business')
+              ? '/campus-quad.jpg'
+              : school.name.includes('Health')
+              ? '/library.jpg'
+              : school.name.includes('Media')
+              ? '/innovation-hall.jpg'
+              : '/graduation.jpg';
 
-            {/* School Overview Blurb */}
-            <div className="px-6 sm:px-8 pt-5 pb-2 text-xs text-slate-600 border-b border-slate-100 italic">
-              {school.desc}
-            </div>
+          return (
+            <div
+              key={sIdx}
+              className="bg-white rounded-3xl border border-slate-200 shadow-md overflow-hidden hover:shadow-xl transition-all duration-300"
+            >
+              {/* School Visual Header */}
+              <div className="relative h-48 sm:h-56 bg-oxford-950 overflow-hidden">
+                <img
+                  src={schoolImg}
+                  alt={school.name}
+                  className="w-full h-full object-cover object-center filter brightness-60"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-oxford-950 via-oxford-950/40 to-transparent"></div>
 
-            {/* Departments & Courses Grid */}
-            <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {school.departments.map((dept, dIdx) => (
-                <div key={dIdx} className="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-4 flex flex-col justify-between">
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2 text-oxford-900 font-bold text-sm">
-                      <Building className="w-4 h-4 text-gold-600 shrink-0" />
-                      <h3>{dept.name}</h3>
+                <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-between text-white">
+                  <div className="flex items-center justify-between">
+                    <span className="px-3 py-1 rounded-full bg-gold-500 text-oxford-950 font-extrabold text-[10px] uppercase tracking-wider">
+                      Faculty Spotlight
+                    </span>
+                    <span className="text-xs font-bold text-slate-200 bg-black/50 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/10">
+                      {school.students}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-3xl shrink-0">
+                      {school.icon}
                     </div>
+                    <div>
+                      <h2 className="font-serif font-bold text-2xl sm:text-3xl text-white drop-shadow-md">{school.name}</h2>
+                      <p className="text-xs text-gold-300 mt-0.5">Dean: {school.dean}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-                    <div className="space-y-2 pt-1">
-                      {dept.courses.map((course, cIdx) => (
-                        <div
-                          key={cIdx}
-                          className="p-3 bg-white rounded-xl border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-gold-500/50 transition"
-                        >
-                          <div className="space-y-0.5">
-                            <h4 className="font-bold text-xs text-slate-900">{course.name}</h4>
-                            <p className="text-[10px] text-slate-500">
-                              Duration: <span className="font-semibold text-slate-700">{course.duration}</span> • Exam Body: <span className="font-semibold text-oxford-900">{course.examBody}</span>
-                            </p>
-                          </div>
-                          <span
-                            className={`px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider self-start sm:self-auto shrink-0 ${
-                              course.level === 'Diploma'
-                                ? 'bg-blue-100 text-blue-800'
-                                : course.level === 'Certificate'
-                                ? 'bg-emerald-100 text-emerald-800'
-                                : course.level === 'Artisan'
-                                ? 'bg-amber-100 text-amber-800'
-                                : course.level === 'Professional'
-                                ? 'bg-purple-100 text-purple-800'
-                                : 'bg-rose-100 text-rose-800'
-                            }`}
+              {/* School Overview Blurb */}
+              <div className="px-6 sm:px-8 py-4 bg-slate-50 text-xs text-slate-700 border-b border-slate-200 font-medium">
+                {school.desc}
+              </div>
+
+              {/* Departments & Courses Grid */}
+              <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {school.departments.map((dept, dIdx) => (
+                  <div key={dIdx} className="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-4 flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 text-oxford-900 font-bold text-sm">
+                        <Building className="w-4 h-4 text-gold-600 shrink-0" />
+                        <h3>{dept.name}</h3>
+                      </div>
+
+                      <div className="space-y-2 pt-1">
+                        {dept.courses.map((course, cIdx) => (
+                          <div
+                            key={cIdx}
+                            className="p-3 bg-white rounded-xl border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:border-gold-500/50 transition"
                           >
-                            {course.level}
-                          </span>
-                        </div>
-                      ))}
+                            <div className="space-y-0.5">
+                              <h4 className="font-bold text-xs text-slate-900">{course.name}</h4>
+                              <p className="text-[10px] text-slate-500">
+                                Duration: <span className="font-semibold text-slate-700">{course.duration}</span> • Exam Body: <span className="font-semibold text-oxford-900">{course.examBody}</span>
+                              </p>
+                            </div>
+                            <span
+                              className={`px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider self-start sm:self-auto shrink-0 ${
+                                course.level === 'Diploma'
+                                  ? 'bg-blue-100 text-blue-800'
+                                  : course.level === 'Certificate'
+                                  ? 'bg-emerald-100 text-emerald-800'
+                                  : course.level === 'Artisan'
+                                  ? 'bg-amber-100 text-amber-800'
+                                  : course.level === 'Professional'
+                                  ? 'bg-purple-100 text-purple-800'
+                                  : 'bg-rose-100 text-rose-800'
+                              }`}
+                            >
+                              {course.level}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="pt-3 border-t border-slate-200 text-right">
+                      <Link
+                        to="/admissions"
+                        className="text-[11px] font-bold text-crimson-700 hover:text-crimson-800 inline-flex items-center gap-1"
+                      >
+                        <span>Fee Structure & Requirements</span>
+                        <ChevronRight className="w-3 h-3" />
+                      </Link>
                     </div>
                   </div>
-
-                  <div className="pt-3 border-t border-slate-200 text-right">
-                    <Link
-                      to="/admissions"
-                      className="text-[11px] font-bold text-crimson-700 hover:text-crimson-800 inline-flex items-center gap-1"
-                    >
-                      <span>Fee Structure & Requirements</span>
-                      <ChevronRight className="w-3 h-3" />
-                    </Link>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
