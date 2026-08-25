@@ -2,410 +2,217 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
-  GraduationCap,
   BookOpen,
-  Award,
-  Users,
-  Building2,
   ArrowRight,
-  ShieldCheck,
-  CreditCard,
-  Home,
-  CheckCircle2,
-  Calendar,
   Sparkles,
-  Globe,
-  Compass,
   ArrowUpRight,
-  Library,
-  Flame,
-  Wrench,
-  Utensils,
+  GraduationCap,
+  ShieldCheck,
+  Building,
+  Award,
+  CheckCircle2,
 } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
   const { quickLogin } = useAuth();
   const navigate = useNavigate();
 
+  const schools = [
+    {
+      name: 'School of Business & Management',
+      desc: 'Banking, finance, CPA qualifications, HR, and supply chain management.',
+      image: '/campus-quad.jpg',
+      badge: 'Diploma • Cert • CPA',
+      students: '3,450+ Scholars',
+    },
+    {
+      name: 'School of ICT & Computer Science',
+      desc: 'Software development, cloud systems, cyber security, Cisco CCNA, and AI.',
+      image: '/innovation-hall.jpg',
+      badge: 'Diploma • Cert • Short',
+      students: '2,850+ Scholars',
+    },
+    {
+      name: 'School of Engineering & Technology',
+      desc: 'Electrical power, automotive mechanics, civil masonry, and solar PV energy.',
+      image: '/engineering-lab.jpg',
+      badge: 'Diploma • Cert • Artisan',
+      students: '2,100+ Scholars',
+    },
+    {
+      name: 'School of Hospitality & Tourism',
+      desc: 'Culinary gastronomy, French bakery, food & beverage, and barista skills.',
+      image: '/culinary.jpg',
+      badge: 'Diploma • Pastry • Short',
+      students: '1,950+ Scholars',
+    },
+    {
+      name: 'School of Media & Communication',
+      desc: 'Broadcast 4K television journalism, radio presenting, and corporate PR.',
+      image: '/media-studio.jpg',
+      badge: 'Diploma • Cert • Short',
+      students: '1,600+ Scholars',
+    },
+    {
+      name: 'School of Health & Social Sciences',
+      desc: 'Community health, social work, counseling psychology, and clinical aide.',
+      image: '/health-lab.jpg',
+      badge: 'Diploma • Cert • Artisan',
+      students: '2,300+ Scholars',
+    },
+    {
+      name: 'School of Creative Arts & Design',
+      desc: 'Graphic design UI/UX, 3D character animation, fashion couture, and interior staging.',
+      image: '/creative-arts.jpg',
+      badge: 'Diploma • Cert • Artisan',
+      students: '1,450+ Scholars',
+    },
+  ];
+
+  const highlights = [
+    {
+      title: 'State-of-the-Art Computing & AI Lab',
+      desc: 'KES 250M research complex equipped for software engineering, cyber defense, and robotics simulations.',
+      image: '/innovation-hall.jpg',
+      category: 'Research & Innovation',
+    },
+    {
+      title: 'Chancellor’s Memorial Research Library',
+      desc: 'Housing over 150,000 physical volumes and 24/7 digital access to global academic journals.',
+      image: '/library.jpg',
+      category: 'Academic Resources',
+    },
+    {
+      title: 'Commercial Industry Training Ateliers',
+      desc: 'Five-star culinary masterclass kitchens, solar test benches, and broadcast media studios.',
+      image: '/culinary.jpg',
+      category: 'Practical Skills',
+    },
+  ];
+
   return (
-    <div className="space-y-20 pb-20 bg-[#FAF9F6]">
-      {/* 1. Hero Section (Oxford / Harvard Editorial Caliber) */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-oxford-950 text-white">
-        {/* Background Photo with Dark Gradient Overlay */}
+    <div className="space-y-24 pb-24 bg-[#FAF9F6]">
+      {/* 1. Decluttered & Majestic Hero Section */}
+      <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-oxford-950 text-white text-center">
+        {/* Cinematic Background with Clean Gradient */}
         <div className="absolute inset-0 z-0">
           <img
             src="/campus-quad.jpg"
-            alt="University of Upper Hill Campus Quad"
-            className="w-full h-full object-cover object-center scale-105 transform motion-safe:animate-pulse-slow filter brightness-75 contrast-110"
+            alt="University of Upper Hill Campus"
+            className="w-full h-full object-cover object-center filter brightness-50 contrast-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-oxford-950 via-oxford-950/85 to-oxford-950/40"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-oxford-950 via-transparent to-black/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-oxford-950/85 via-oxford-950/60 to-oxford-950"></div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Editorial Text */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-gold-400 text-xs uppercase tracking-widest font-semibold">
-                <Compass className="w-3.5 h-3.5 text-gold-400" />
-                <span>Excellence Since Inception • Nairobi, Kenya</span>
-              </div>
-
-              <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.08]">
-                A Global Centre for <br />
-                <span className="italic font-normal text-gold-300 font-serif">Discovery</span> &{' '}
-                <span className="text-white">Leadership.</span>
-              </h1>
-
-              <p className="text-slate-200 text-base sm:text-lg leading-relaxed max-w-xl font-light">
-                The <strong>University of Upper Hill</strong> offers accredited <strong>Diploma, Certificate, Artisan, Short & Professional</strong> courses across 7 distinct academic schools.
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4 pt-4">
-                <button
-                  onClick={() => { quickLogin('student'); navigate('/student'); }}
-                  className="px-8 py-4 rounded-xl bg-gradient-to-r from-gold-600 via-gold-500 to-gold-400 hover:from-gold-500 hover:to-gold-300 text-oxford-950 font-bold text-sm shadow-2xl shadow-gold-500/25 transition transform hover:-translate-y-0.5 flex items-center gap-3 tracking-wide"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  <span>Enter Student Portal</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-
-                <Link
-                  to="/admissions"
-                  className="px-7 py-4 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/25 text-white font-semibold text-sm transition flex items-center gap-2"
-                >
-                  <span>Admissions & Aid</span>
-                  <ArrowUpRight className="w-4 h-4 text-gold-400" />
-                </Link>
-              </div>
-
-              {/* Prestigious Metric Strip */}
-              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/15 max-w-lg">
-                <div>
-                  <p className="font-serif text-3xl sm:text-4xl font-bold text-gold-400">20,000+</p>
-                  <p className="text-xs text-slate-300 uppercase tracking-wider mt-1">Scholars</p>
-                </div>
-                <div>
-                  <p className="font-serif text-3xl sm:text-4xl font-bold text-white">7</p>
-                  <p className="text-xs text-slate-300 uppercase tracking-wider mt-1">Schools</p>
-                </div>
-                <div>
-                  <p className="font-serif text-3xl sm:text-4xl font-bold text-emerald-400">98.4%</p>
-                  <p className="text-xs text-slate-300 uppercase tracking-wider mt-1">Career Success</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Card: Institutional Gateways */}
-            <div className="lg:col-span-5">
-              <div className="bg-oxford-900/90 backdrop-blur-xl rounded-3xl p-7 sm:p-8 shadow-2xl border border-white/15 relative space-y-6">
-                <div className="flex items-center justify-between pb-4 border-b border-white/10">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-white p-0.5 shadow-md flex items-center justify-center">
-                      <img src="/logo.png" alt="Crest" className="w-7 h-7 object-contain" />
-                    </div>
-                    <div>
-                      <h3 className="font-serif font-bold text-white text-base">University Gateways</h3>
-                      <p className="text-[11px] text-gold-400 uppercase tracking-wider">Role-Gated Microservices</p>
-                    </div>
-                  </div>
-                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
-                </div>
-
-                <div className="space-y-3">
-                  <div
-                    onClick={() => { quickLogin('student'); navigate('/student'); }}
-                    className="p-4 rounded-2xl bg-white/5 hover:bg-emerald-950/50 border border-white/10 hover:border-emerald-500/40 cursor-pointer transition group"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3.5">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center font-bold">
-                          <GraduationCap className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <h4 className="font-bold text-sm text-white group-hover:text-gold-300 transition">Student ERP Portal</h4>
-                          <p className="text-xs text-slate-300">Transcripts, Jiunge M-Pesa fees, hostel locks</p>
-                        </div>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-gold-400 group-hover:translate-x-1 transition" />
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => { quickLogin('faculty'); navigate('/staff'); }}
-                    className="p-4 rounded-2xl bg-white/5 hover:bg-blue-950/50 border border-white/10 hover:border-blue-500/40 cursor-pointer transition group"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3.5">
-                        <div className="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-300 flex items-center justify-center font-bold">
-                          <Building2 className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <h4 className="font-bold text-sm text-white group-hover:text-blue-300 transition">Faculty & Lecturer Portal</h4>
-                          <p className="text-xs text-slate-300">Class rosters, marks entry & grading</p>
-                        </div>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-blue-400 group-hover:translate-x-1 transition" />
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => { quickLogin('ict-admin'); navigate('/admin'); }}
-                    className="p-4 rounded-2xl bg-white/5 hover:bg-crimson-950/50 border border-white/10 hover:border-crimson-500/40 cursor-pointer transition group"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3.5">
-                        <div className="w-10 h-10 rounded-xl bg-crimson-500/20 text-crimson-300 flex items-center justify-center font-bold">
-                          <ShieldCheck className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <h4 className="font-bold text-sm text-white group-hover:text-crimson-300 transition">ICT Directorate & Admin</h4>
-                          <p className="text-xs text-slate-300">Microservice health, CMS, payment ledger</p>
-                        </div>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-crimson-400 group-hover:translate-x-1 transition" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-black/40 border border-white/10 text-xs text-slate-300 flex items-center gap-2.5">
-                  <CreditCard className="w-4 h-4 text-gold-400 shrink-0" />
-                  <span>Direct Jiunge/Pesaflow M-Pesa STK push clearance active.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. Research Pillar & Modern Lecture Hall Showcase */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-6 space-y-6">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-crimson-700">
-              <Award className="w-4 h-4" />
-              <span>State-of-the-Art Facilities</span>
-            </div>
-
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-oxford-950 leading-tight">
-              Pioneering Artificial Intelligence, Software Engineering & Robotics
-            </h2>
-
-            <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
-              At the University of Upper Hill, academic theory converges with hands-on technical mastery. Our computing amphitheatre and Cisco/EC-Council certified cybersecurity labs prepare students for immediate high-growth tech careers.
-            </p>
-
-            <blockquote className="p-5 rounded-2xl bg-white border-l-4 border-gold-600 shadow-sm text-xs sm:text-sm text-slate-800 italic font-serif">
-              "We prepare scholars not just for employment, but to build and lead the technical and enterprise infrastructure of Africa."
-              <footer className="mt-2 font-sans font-bold text-oxford-900 not-italic text-xs">
-                — Prof. Mary Wanjiku, PhD, Registrar of Academic Affairs
-              </footer>
-            </blockquote>
-
-            <div className="pt-2">
-              <Link
-                to="/schools"
-                className="inline-flex items-center gap-2 text-sm font-bold text-oxford-900 hover:text-crimson-700 transition"
-              >
-                <span>Explore all 7 Academic Schools</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-8">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-gold-400 text-xs uppercase tracking-widest font-semibold">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Chartered Public Institution • Nairobi, Kenya</span>
           </div>
 
-          <div className="lg:col-span-6">
-            <div className="rounded-3xl overflow-hidden shadow-2xl border border-slate-200 relative group">
-              <img
-                src="/innovation-hall.jpg"
-                alt="University Innovation Hall"
-                className="w-full h-80 sm:h-96 object-cover object-center group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-oxford-950/90 via-transparent to-transparent flex items-end p-6 sm:p-8 text-white">
-                <div>
-                  <span className="px-2.5 py-1 rounded bg-gold-500 text-oxford-950 font-bold text-[10px] uppercase tracking-wider">
-                    Innovation Hub
-                  </span>
-                  <h4 className="font-serif font-bold text-lg sm:text-xl mt-2">Computing & Robotics Amphitheatre</h4>
-                  <p className="text-xs text-slate-300 mt-1">Equipped with enterprise cloud workstations, data analytics clusters, and AI modeling sandboxes.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-tight">
+            Excellence in Discovery, <br />
+            <span className="italic font-normal text-gold-300 font-serif">Leadership</span> & Technology.
+          </h1>
 
-      {/* 3. The Grand University Research Library Showcase */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-oxford-950 rounded-3xl overflow-hidden shadow-2xl border border-white/10 grid grid-cols-1 lg:grid-cols-12 items-center">
-          <div className="lg:col-span-6 p-8 sm:p-12 text-white space-y-6">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gold-400">
-              <Library className="w-4 h-4" />
-              <span>Bodleian & Harvard Standard</span>
-            </div>
-
-            <h3 className="font-serif text-3xl sm:text-4xl font-bold leading-tight">
-              The Chancellor's Memorial Research Library
-            </h3>
-
-            <p className="text-slate-300 text-sm leading-relaxed">
-              Housing over 150,000 physical volumes, 24/7 digital journal subscriptions (IEEE, Springer, ScienceDirect, JSTOR), silent study galleries, and high-speed research pods.
-            </p>
-
-            <div className="grid grid-cols-2 gap-4 pt-2 border-t border-white/15">
-              <div>
-                <p className="font-serif text-2xl font-bold text-gold-400">150,000+</p>
-                <p className="text-xs text-slate-400">Academic Books & Volumes</p>
-              </div>
-              <div>
-                <p className="font-serif text-2xl font-bold text-emerald-400">24 / 7</p>
-                <p className="text-xs text-slate-400">E-Library & Journal Access</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="lg:col-span-6 h-80 sm:h-96 lg:h-full min-h-[350px] relative">
-            <img
-              src="/library.jpg"
-              alt="Grand University Research Library"
-              className="w-full h-full object-cover object-center"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-l from-oxford-950/80 via-transparent to-transparent"></div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Dual Hands-On Showcase: Engineering Labs & Culinary Hospitality Kitchens */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center max-w-3xl mx-auto space-y-2">
-          <span className="text-xs font-bold uppercase tracking-widest text-gold-800 bg-gold-100 px-3 py-1 rounded-full border border-gold-300">
-            TVET & Professional Industry Labs
-          </span>
-          <h3 className="font-serif text-3xl sm:text-4xl font-bold text-oxford-950">Hands-On Practical Excellence</h3>
-          <p className="text-sm text-slate-600">
-            Our students train in industry-grade workshops and commercial facilities before graduation.
+          <p className="text-slate-200 text-base sm:text-lg max-w-2xl mx-auto font-light leading-relaxed">
+            Offering accredited <strong>Diploma, Certificate, Artisan, Short & Professional</strong> courses across 7 specialized academic schools.
           </p>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Engineering Workshop */}
-          <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-md hover:shadow-xl transition flex flex-col justify-between">
-            <div className="h-64 sm:h-72 overflow-hidden relative">
-              <img
-                src="/engineering-lab.jpg"
-                alt="Renewable Energy & Solar Engineering Lab"
-                className="w-full h-full object-cover object-center hover:scale-105 transition duration-500"
-              />
-              <span className="absolute top-4 left-4 bg-oxford-950/80 backdrop-blur-md text-gold-400 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-white/15">
-                EPRA & NITA Accredited Lab
-              </span>
-            </div>
-            <div className="p-7 space-y-3">
-              <h4 className="font-serif font-bold text-xl text-oxford-950">
-                School of Engineering & Solar Technology
-              </h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Featuring real-world solar PV inverters, automated robotic arms, electrical grid simulators, and automotive mechanical engine diagnostic rigs.
-              </p>
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full">
-                  Diploma • Certificate • Artisan
-                </span>
-                <Link to="/schools" className="text-xs font-bold text-crimson-700 hover:text-crimson-800 flex items-center gap-1">
-                  <span>View Engineering Units</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <button
+              onClick={() => { quickLogin('student'); navigate('/student'); }}
+              className="px-8 py-4 rounded-xl bg-gradient-to-r from-gold-600 via-gold-500 to-gold-400 hover:from-gold-500 hover:to-gold-300 text-oxford-950 font-bold text-sm shadow-xl shadow-gold-500/20 transition transform hover:-translate-y-0.5 flex items-center gap-2.5"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Enter Student Portal</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+
+            <Link
+              to="/schools"
+              className="px-8 py-4 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/25 text-white font-semibold text-sm transition flex items-center gap-2"
+            >
+              <span>Explore 7 Schools</span>
+              <ArrowUpRight className="w-4 h-4 text-gold-400" />
+            </Link>
           </div>
 
-          {/* Hospitality & Culinary Studio */}
-          <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-md hover:shadow-xl transition flex flex-col justify-between">
-            <div className="h-64 sm:h-72 overflow-hidden relative">
-              <img
-                src="/culinary.jpg"
-                alt="5-Star Commercial Hospitality & Culinary Kitchen"
-                className="w-full h-full object-cover object-center hover:scale-105 transition duration-500"
-              />
-              <span className="absolute top-4 left-4 bg-oxford-950/80 backdrop-blur-md text-gold-400 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-white/15">
-                City & Guilds 5-Star Kitchen
-              </span>
+          {/* Minimalist Key Stats Bar */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-12 border-t border-white/15 max-w-3xl mx-auto">
+            <div>
+              <p className="font-serif text-2xl sm:text-3xl font-bold text-gold-400">20,000+</p>
+              <p className="text-[11px] text-slate-300 uppercase tracking-wider mt-0.5">Enrolled Scholars</p>
             </div>
-            <div className="p-7 space-y-3">
-              <h4 className="font-serif font-bold text-xl text-oxford-950">
-                School of Hospitality & Culinary Arts
-              </h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Stainless-steel professional training kitchens, French pastry bakery studios, mixology cocktail bars, and simulated 5-star front desk suites.
-              </p>
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-[11px] font-bold text-orange-800 bg-orange-50 px-2.5 py-1 rounded-full">
-                  Diploma • Food & Beverage • Pastry
-                </span>
-                <Link to="/schools" className="text-xs font-bold text-crimson-700 hover:text-crimson-800 flex items-center gap-1">
-                  <span>View Culinary Units</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
+            <div>
+              <p className="font-serif text-2xl sm:text-3xl font-bold text-white">7</p>
+              <p className="text-[11px] text-slate-300 uppercase tracking-wider mt-0.5">Academic Schools</p>
+            </div>
+            <div>
+              <p className="font-serif text-2xl sm:text-3xl font-bold text-emerald-400">98.4%</p>
+              <p className="text-[11px] text-slate-300 uppercase tracking-wider mt-0.5">Graduate Placement</p>
+            </div>
+            <div>
+              <p className="font-serif text-2xl sm:text-3xl font-bold text-gold-300">TVETA & KNEC</p>
+              <p className="text-[11px] text-slate-300 uppercase tracking-wider mt-0.5">Accredited Programs</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. The 7 Academic Schools Showcase with Real Faculty Photography */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
-          <span className="text-xs font-bold uppercase tracking-widest text-gold-800 bg-gold-100 px-3 py-1 rounded-full border border-gold-300">
-            7 Academic Schools • Accredited Programs
+      {/* 2. Clean & Clear 7 Academic Schools Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <span className="text-xs font-bold uppercase tracking-widest text-gold-800 bg-gold-100 px-3.5 py-1 rounded-full border border-gold-300">
+            Academic Catalog
           </span>
-          <h3 className="font-serif text-3xl sm:text-4xl font-bold text-oxford-950">Academic Schools & Faculties</h3>
-          <p className="text-sm text-slate-600">
-            The college offers accredited <strong>Diploma, Certificate, Artisan, Short, and Professional</strong> courses across 7 distinct schools.
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-oxford-950">
+            Academic Schools & Faculties
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 font-light">
+            Explore industry-aligned courses tailored for immediate workplace competency and certification.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {[
-            { name: 'School of Business & Management', desc: 'Diploma, Certificate, CPA & Executive courses in Finance, HR & Supply Chain.', badge: '3,450 Students', image: '/campus-quad.jpg', levels: 'Diploma • Cert • CPA' },
-            { name: 'School of ICT & Computer Science', desc: 'Software engineering, cybersecurity, data science, CCNA, cloud & AI.', badge: '2,850 Students', image: '/innovation-hall.jpg', levels: 'Diploma • Cert • Artisan' },
-            { name: 'School of Engineering & Technology', desc: 'Electrical power, automotive mechanics, civil masonry, plumbing & solar PV.', badge: '2,100 Students', image: '/engineering-lab.jpg', levels: 'Diploma • Cert • Artisan' },
-            { name: 'School of Hospitality & Tourism', desc: 'Culinary arts, pastry bakery, food & beverage, cabin crew & barista skills.', badge: '1,950 Students', image: '/culinary.jpg', levels: 'Diploma • Cert • Short' },
-            { name: 'School of Media & Communication', desc: 'Broadcast journalism, TV/radio presenting, public relations & digital strategy.', badge: '1,600 Students', image: '/media-studio.jpg', levels: 'Diploma • Cert • Short' },
-            { name: 'School of Health & Social Sciences', desc: 'Community health, social work, counseling psychology & disaster management.', badge: '2,300 Students', image: '/health-lab.jpg', levels: 'Diploma • Cert • Artisan' },
-            { name: 'School of Creative Arts & Design', desc: 'Graphic design, 2D/3D animation, fashion textile styling & interior staging.', badge: '1,450 Students', image: '/creative-arts.jpg', levels: 'Diploma • Cert • Artisan' },
-          ].map((item, idx) => (
+          {schools.map((school, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 group"
+              className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 group"
             >
               <div>
                 <div className="h-44 overflow-hidden relative">
                   <img
-                    src={item.image}
-                    alt={item.name}
+                    src={school.image}
+                    alt={school.name}
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-oxford-950/80 via-transparent to-transparent"></div>
-                  <span className="absolute top-3 right-3 text-[10px] font-bold text-oxford-950 bg-gold-400 px-2 py-0.5 rounded-full shadow">
-                    {item.levels}
+                  <div className="absolute inset-0 bg-gradient-to-t from-oxford-950/75 via-transparent to-transparent"></div>
+                  <span className="absolute top-3 right-3 text-[10px] font-bold text-oxford-950 bg-gold-400 px-2.5 py-0.5 rounded-full shadow">
+                    {school.badge}
                   </span>
                 </div>
 
                 <div className="p-5 space-y-2">
-                  <h4 className="font-serif font-bold text-base text-oxford-950 leading-snug group-hover:text-crimson-800 transition">
-                    {item.name}
-                  </h4>
+                  <h3 className="font-serif font-bold text-base text-oxford-950 leading-snug group-hover:text-crimson-800 transition">
+                    {school.name}
+                  </h3>
                   <p className="text-xs text-slate-600 leading-relaxed font-light line-clamp-2">
-                    {item.desc}
+                    {school.desc}
                   </p>
                 </div>
               </div>
 
               <div className="p-5 pt-0 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-[11px] font-bold text-oxford-800 bg-oxford-50 px-2.5 py-1 rounded-full">{item.badge}</span>
-                <Link to="/schools" className="text-xs font-bold text-crimson-700 hover:text-crimson-800 flex items-center gap-1">
-                  <span>View Units</span>
-                  <ArrowRight className="w-3 h-3" />
+                <span className="text-[11px] font-bold text-oxford-800 bg-oxford-50 px-2.5 py-1 rounded-full">
+                  {school.students}
+                </span>
+                <Link
+                  to="/schools"
+                  className="text-xs font-bold text-crimson-700 hover:text-crimson-800 flex items-center gap-1"
+                >
+                  <span>View Courses</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>
@@ -413,40 +220,90 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 6. Grand Graduation Commencement Showcase & Call to Action Banner */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200 bg-oxford-950 text-white min-h-[420px] flex items-center">
-          <img
-            src="/graduation.jpg"
-            alt="Commencement Ceremony"
-            className="absolute inset-0 w-full h-full object-cover object-center filter brightness-50"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-oxford-950 via-oxford-950/80 to-transparent"></div>
+      {/* 3. Streamlined Campus & Facilities Spotlight */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <span className="text-xs font-bold uppercase tracking-widest text-gold-800 bg-gold-100 px-3.5 py-1 rounded-full border border-gold-300">
+            World-Class Infrastructure
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-oxford-950">
+            Campus Learning Facilities
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 font-light">
+            Modern laboratories, research archives, and commercial practice centers designed for excellence.
+          </p>
+        </div>
 
-          <div className="relative z-10 p-8 sm:p-14 max-w-2xl space-y-4">
-            <span className="px-3.5 py-1.5 rounded-full bg-gold-500/20 text-gold-300 font-bold text-xs uppercase tracking-widest border border-gold-500/30">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {highlights.map((item, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between group"
+            >
+              <div>
+                <div className="h-52 overflow-hidden relative">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500"
+                  />
+                  <span className="absolute top-3 left-3 bg-oxford-950/80 backdrop-blur-md text-gold-400 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-white/10">
+                    {item.category}
+                  </span>
+                </div>
+
+                <div className="p-6 space-y-2">
+                  <h3 className="font-serif font-bold text-lg text-oxford-950 leading-snug">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed font-light">
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-6 pt-0">
+                <Link
+                  to="/news"
+                  className="text-xs font-bold text-oxford-900 hover:text-crimson-700 inline-flex items-center gap-1.5 transition"
+                >
+                  <span>Read facility report</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 4. Streamlined Admissions & Portal Action Banner */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-oxford-950 text-white p-8 sm:p-12 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="space-y-3 max-w-xl text-center md:text-left">
+            <span className="px-3.5 py-1 rounded-full bg-gold-500/20 text-gold-300 font-bold text-xs uppercase tracking-widest border border-gold-500/30">
               2024/2025 Admissions Window
             </span>
-            <h3 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
-              Begin Your Academic Journey Today
-            </h3>
-            <p className="text-sm text-slate-200 leading-relaxed">
-              Join thousands of scholars achieving academic excellence. Download your official admission letter, complete fee clearance via Jiunge M-Pesa, and reserve your hostel in minutes.
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-white">
+              Claim Your Admission & Start Learning
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
+              Verify your KUCCPS admission status, download your verified admission letter, and clear fees securely via Jiunge / Pesaflow M-Pesa.
             </p>
-            <div className="flex flex-wrap gap-4 pt-2">
-              <button
-                onClick={() => { quickLogin('student'); navigate('/student'); }}
-                className="px-8 py-4 bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-oxford-950 font-bold rounded-xl text-sm shadow-xl transition"
-              >
-                Access Student Portal
-              </button>
-              <Link
-                to="/admissions"
-                className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white font-semibold rounded-xl text-sm transition"
-              >
-                Claim Admission Letter
-              </Link>
-            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-4 shrink-0">
+            <Link
+              to="/admissions"
+              className="px-7 py-3.5 bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-oxford-950 font-bold rounded-xl text-xs shadow-lg transition"
+            >
+              Admissions & Fee Guide
+            </Link>
+            <Link
+              to="/login"
+              className="px-7 py-3.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold rounded-xl text-xs transition"
+            >
+              Sign In to Portal
+            </Link>
           </div>
         </div>
       </section>
