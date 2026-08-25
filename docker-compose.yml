@@ -1,0 +1,152 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: uuh_admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: uuh_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db-migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U uuh_admin -d uuh_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - uuh-network
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - NODE_ENV=development
+      - JWT_SECRET=local_dev_secret_key
+      - AUTH_SERVICE_URL=http://auth-service:3001
+      - ACADEMIC_SERVICE_URL=http://academic-service:3002
+      - HOSTEL_SERVICE_URL=http://hostel-service:3003
+      - FINANCE_SERVICE_URL=http://finance-service:3004
+      - ADMISSIONS_SERVICE_URL=http://admissions-service:3005
+      - CMS_SERVICE_URL=http://cms-service:3006
+    depends_on:
+      auth-service:
+        condition: service_started
+      academic-service:
+        condition: service_started
+      hostel-service:
+        condition: service_started
+      finance-service:
+        condition: service_started
+      admissions-service:
+        condition: service_started
+      cms-service:
+        condition: service_started
+    networks:
+      - uuh-network
+
+  auth-service:
+    build:
+      context: ./services/auth-service
+    environment:
+      - PORT=3001
+      - DATABASE_URL=postgres://uuh_admin:password123@db:5432/uuh_db
+      - JWT_SECRET=local_dev_secret_key
+      - REFRESH_SECRET=local_dev_refresh_secret
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - uuh-network
+
+  academic-service:
+    build:
+      context: ./services/academic-service
+    environment:
+      - PORT=3002
+      - DATABASE_URL=postgres://uuh_admin:password123@db:5432/uuh_db
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - uuh-network
+
+  hostel-service:
+    build:
+      context: ./services/hostel-service
+    environment:
+      - PORT=3003
+      - DATABASE_URL=postgres://uuh_admin:password123@db:5432/uuh_db
+      - FINANCE_SERVICE_URL=http://finance-service:3004
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - uuh-network
+
+  finance-service:
+    build:
+      context: ./services/finance-service
+    environment:
+      - PORT=3004
+      - DATABASE_URL=postgres://uuh_admin:password123@db:5432/uuh_db
+      - JIUNGE_API_URL=https://api.jiunge.example.com
+      - JIUNGE_API_KEY=mock_jiunge_key
+      - JIUNGE_WEBHOOK_SECRET=mock_webhook_secret
+      - NOTIFICATION_SERVICE_URL=http://notification-service:3007
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - uuh-network
+
+  admissions-service:
+    build:
+      context: ./services/admissions-service
+    environment:
+      - PORT=3005
+      - DATABASE_URL=postgres://uuh_admin:password123@db:5432/uuh_db
+      - ACADEMIC_SERVICE_URL=http://academic-service:3002
+      - NOTIFICATION_SERVICE_URL=http://notification-service:3007
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - uuh-network
+
+  cms-service:
+    build:
+      context: ./services/cms-service
+    environment:
+      - PORT=3006
+      - DATABASE_URL=postgres://uuh_admin:password123@db:5432/uuh_db
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - uuh-network
+
+  notification-service:
+    build:
+      context: ./services/notification-service
+    environment:
+      - PORT=3007
+      - SMTP_HOST=smtp.example.com
+      - SMTP_PORT=587
+      - SMTP_USER=noreply@upperhill.ac.ke
+      - SMTP_PASS=mock_smtp_password
+    networks:
+      - uuh-network
+
+volumes:
+  pgdata:
+
+networks:
+  uuh-network:
+    driver: bridge
