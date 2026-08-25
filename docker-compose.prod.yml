@@ -1,0 +1,249 @@
+version: '3.8'
+
+services:
+  # =================================================================
+  # CADDY REVERSE PROXY & AUTOMATIC SSL (Let's Encrypt)
+  # =================================================================
+  caddy:
+    image: caddy:2-alpine
+    container_name: uuh-caddy-ssl
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp" # HTTP/3 QUIC
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      api-gateway:
+        condition: service_started
+    networks:
+      - uuh-prod-network
+
+  # =================================================================
+  # PRIMARY RELATIONAL DATABASE (PostgreSQL 15)
+  # =================================================================
+  db:
+    image: postgres:15-alpine
+    container_name: uuh-prod-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-uuh_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-uuh_db}
+    volumes:
+      - pgdata_prod:/var/lib/postgresql/data
+      - ./db-migrations/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-uuh_admin} -d ${POSTGRES_DB:-uuh_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+    networks:
+      - uuh-prod-network
+
+  # =================================================================
+  # DOCUMENT STORE (MongoDB 6.0)
+  # =================================================================
+  mongo:
+    image: mongo:6.0
+    container_name: uuh-prod-mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    volumes:
+      - mongodata_prod:/data/db
+      - ./db-migrations/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    healthcheck:
+      test: ["CMD","mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+    networks:
+      - uuh-prod-network
+
+  # =================================================================
+  # API GATEWAY (Port 8080 Internal Ingress)
+  # =================================================================
+  api-gateway:
+    build:
+      context: ./api-gateway
+    container_name: uuh-prod-gateway
+    restart: always
+    environment:
+      - PORT=8080
+      - NODE_ENV=production
+      - JWT_SECRET=${JWT_SECRET}
+      - AUTH_SERVICE_URL=http://auth-service:3001
+      - ACADEMIC_SERVICE_URL=http://academic-service:3002
+      - HOSTEL_SERVICE_URL=http://hostel-service:3003
+      - FINANCE_SERVICE_URL=http://finance-service:3004
+      - ADMISSIONS_SERVICE_URL=http://admissions-service:3005
+      - CMS_SERVICE_URL=http://cms-service:3006
+    depends_on:
+      - auth-service
+      - academic-service
+      - hostel-service
+      - finance-service
+      - admissions-service
+      - cms-service
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    networks:
+      - uuh-prod-network
+
+  # =================================================================
+  # MICROSERVICE 1: AUTH SERVICE
+  # =================================================================
+  auth-service:
+    build:
+      context: ./services/auth-service
+    container_name: uuh-prod-auth
+    restart: always
+    environment:
+      - PORT=3001
+      - DATABASE_URL=postgres://${POSTGRES_USER:-uuh_admin}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-uuh_db}
+      - JWT_SECRET=${JWT_SECRET}
+      - REFRESH_SECRET=${REFRESH_SECRET}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - uuh-prod-network
+
+  # =================================================================
+  # MICROSERVICE 2: ACADEMIC SERVICE
+  # =================================================================
+  academic-service:
+    build:
+      context: ./services/academic-service
+    container_name: uuh-prod-academic
+    restart: always
+    environment:
+      - PORT=3002
+      - DATABASE_URL=postgres://${POSTGRES_USER:-uuh_admin}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-uuh_db}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - uuh-prod-network
+
+  # =================================================================
+  # MICROSERVICE 3: HOSTEL SERVICE
+  # =================================================================
+  hostel-service:
+    build:
+      context: ./services/hostel-service
+    container_name: uuh-prod-hostel
+    restart: always
+    environment:
+      - PORT=3003
+      - DATABASE_URL=postgres://${POSTGRES_USER:-uuh_admin}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-uuh_db}
+      - FINANCE_SERVICE_URL=http://finance-service:3004
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - uuh-prod-network
+
+  # =================================================================
+  # MICROSERVICE 4: FINANCE SERVICE (Jiunge/Pesaflow)
+  # =================================================================
+  finance-service:
+    build:
+      context: ./services/finance-service
+    container_name: uuh-prod-finance
+    restart: always
+    environment:
+      - PORT=3004
+      - DATABASE_URL=postgres://${POSTGRES_USER:-uuh_admin}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-uuh_db}
+      - JIUNGE_API_URL=${JIUNGE_API_URL:-https://api.jiunge.com}
+      - JIUNGE_API_KEY=${JIUNGE_API_KEY}
+      - JIUNGE_WEBHOOK_SECRET=${JIUNGE_WEBHOOK_SECRET}
+      - NOTIFICATION_SERVICE_URL=http://notification-service:3007
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - uuh-prod-network
+
+  # =================================================================
+  # MICROSERVICE 5: ADMISSIONS SERVICE (PDF Engine)
+  # =================================================================
+  admissions-service:
+    build:
+      context: ./services/admissions-service
+    container_name: uuh-prod-admissions
+    restart: always
+    environment:
+      - PORT=3005
+      - DATABASE_URL=postgres://${POSTGRES_USER:-uuh_admin}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-uuh_db}
+      - ACADEMIC_SERVICE_URL=http://academic-service:3002
+      - NOTIFICATION_SERVICE_URL=http://notification-service:3007
+      - DOWNLOAD_SECRET=${DOWNLOAD_SECRET}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - uuh-prod-network
+
+  # =================================================================
+  # MICROSERVICE 6: CMS SERVICE (MongoDB Document Store)
+  # =================================================================
+  cms-service:
+    build:
+      context: ./services/cms-service
+    container_name: uuh-prod-cms
+    restart: always
+    environment:
+      - PORT=3006
+      - MONGO_URI=mongodb://${MONGO_ROOT_USER:-admin}:${MONGO_ROOT_PASSWORD}@mongo:27017/uuh_cms?authSource=admin
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - uuh-prod-network
+
+  # =================================================================
+  # MICROSERVICE 7: NOTIFICATION SERVICE (MongoDB + Mailer)
+  # =================================================================
+  notification-service:
+    build:
+      context: ./services/notification-service
+    container_name: uuh-prod-notification
+    restart: always
+    environment:
+      - PORT=3007
+      - MONGO_URI=mongodb://${MONGO_ROOT_USER:-admin}:${MONGO_ROOT_PASSWORD}@mongo:27017/uuh_notifications?authSource=admin
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - uuh-prod-network
+
+volumes:
+  pgdata_prod:
+  mongodata_prod:
+  caddy_data:
+  caddy_config:
+
+networks:
+  uuh-prod-network:
+    driver: bridge

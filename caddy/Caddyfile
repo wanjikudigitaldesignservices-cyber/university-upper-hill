@@ -1,0 +1,44 @@
+# =================================================================
+# University of Upper Hill — Production Caddy SSL & Reverse Proxy
+# =================================================================
+
+{
+    email admin@upperhill.ac.ke
+    admin off
+}
+
+# Domain or Server IP (Change {$DOMAIN:api.upperhill.ac.ke} to your VPS domain or IP)
+{$DOMAIN:localhost} {
+    # Encode with gzip and zstd for blazing fast delivery
+    encode zstd gzip
+
+    # Production Security Headers (KDPA 2019 / OWASP compliant)
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Access-Control-Allow-Origin "*"
+        Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Access-Control-Allow-Headers "Content-Type, Authorization, x-user-id, x-user-role, x-jiunge-signature"
+    }
+
+    # API Gateway Reverse Proxy
+    reverse_proxy api-gateway:8080 {
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+
+        # Health check
+        health_uri /health
+        health_interval 10s
+        health_timeout 3s
+    }
+
+    # Health Check endpoint for VPS load balancers
+    handle /health {
+        respond "OK - University of Upper Hill VPS Gateway" 200
+    }
+}
